@@ -119,7 +119,7 @@ button{
 					<fmt:formatDate pattern="yyyy-MM-dd" value="${nowDate }" />
 				</article>--%> 
 				<article>
-					<%-- fn 이용해서 자료형 데이터 길이 뽑아내기 ${fn:length(list) }<br> --%>
+					
 					
 					<c:choose>
 						<c:when test="${fn:length(list) gt 0}">

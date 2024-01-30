@@ -21,7 +21,7 @@ public class MemberDAO extends AbstractDAO {
 		Connection con = db.getConnection();
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		String sql = "SELECT count(*) as count, mname FROM member WHERE mid=? AND mpw=?";
+		String sql = "SELECT count(*) as count, mname FROM member WHERE mid=? AND mpw=? AND mgrade > 4";
 
 		try {
 			pstmt = con.prepareStatement(sql);
@@ -59,7 +59,7 @@ public class MemberDAO extends AbstractDAO {
 				dto.setMname(rs.getString("mname"));
 				dto.setMpw(rs.getString("mpw"));
 				dto.setMdate(rs.getString("mdate"));
-				dto.setMgarede(rs.getInt("mgrade"));
+				dto.setMgrade(rs.getInt("mgrade"));
 			}
 
 		} catch (SQLException e) {

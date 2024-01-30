@@ -27,8 +27,26 @@ $(document).ready(function(){
 			//형제 요소 cno 찾기
 			let cno = $(this).siblings(".cno").val();
 			alert("cno : " + cno);
-			let comment = $(this).parents(".comment").children(".ccomment").text(); 
-			alert(cno + " : " + comment); 
+			let comment = $(this).parents(".comment").children(".ccomment"); // 변경
+			
+			$(this).prev().hide();
+			$(this).hide();
+			comment.css('height', '110');
+			comment.css('padding-top', '10px');
+			//comment.css('backgroundColor','gray');
+			//o.css('backgroundColor','gray');
+			
+			
+			
+			let commentChange = comment.html().replaceAll("<br>", "\r\n");
+			alert(cno + " : " + comment.html());
+			let recommentBox = '<div class="recommentBox">';
+			recommentBox += '<textarea class="commentcontent" name="comment">' + commentChange + '</textarea>';
+			recommentBox += '<input type="hidden" name="cno" value="' + cno + '">';
+			recommentBox += '<button class="comment-btn" type="submit">댓글수정</button>';
+			recommentBox += '</div>';
+			
+			comment.html(recommentBox);
 			
 			
 			/* let text = $(this).parent().parent().parent().children(".ccomment").text(); 
@@ -38,6 +56,48 @@ $(document).ready(function(){
 			
 		}
 	});
+	
+	//댓글 수정 comment-btn 눌렀을 때 cno값, commentcontent값 가져오는 명령 만들기
+	//2024-01-25
+	
+ 	$(document).on('click', ".comment-btn", function(){
+ 		if(confirm('수정하시겠습니까?')){
+ 			
+ 			let cno = $(this).prev().val();
+ 	 		let recomment = $('.commentcontent').val();
+ 	 		let comment = $(this).parents(".ccomment");//댓글 위치
+ 	 		//alert(cno + " : " + recomment);
+ 	 		$.ajax({
+ 	 			url : './recomment',
+ 	 			type : 'post',
+ 	 			dataType : 'text',
+ 	 			data : {'cno' : cno, 'comment' : recomment},
+ 	 			success : function(result){
+ 	 				alert('통신 성공 : ' + result);
+ 	 				if (result == 1) {
+ 	 					$(this).parent(".recommentBox").remove();
+ 	 					//comment.css('background-color', '#ffffff');
+ 	 					//comment.css('min-height', '110px');
+ 	 					comment.css('height', 'auto');
+ 	 					comment.html(recomment.replace(/(?:\r\n|\r|\n)/g, '<br>'));
+ 	 					$(".commentDelete").show();
+ 	 					$(".commentEdit").show();
+ 	 				} else {
+ 	 					//실패. 화면 재로드
+ 	 					//location.href='./detail?page=${param.page}&no=${param.no}';
+ 	 					alert("문제가 발생했습니다. 화면을 갱신합니다")
+ 	 					location.href='./detail?page=${param.page}&no=${detail.no}';
+ 	 				}
+ 	 			},
+ 	 			error : function(error){
+ 	 				alert('문제가 발생했습니다. : ' + error);
+ 	 			}
+ 	 		});
+ 		}
+	}); 
+	
+	
+	
 	
 	//댓글 삭제 버튼을 눌렀습니다.
 	$(".commentDelete").click(function(){
@@ -141,7 +201,18 @@ $(document).ready(function(){
 			document.body.appendChild(form);
 			form.submit(); */
 		}
+	});//댓글쓰기 동적 생성 끝
+	
+	//댓글쓰기 창에 쓸 수 있는 글자 표시해 주고 넘어가면 더 이상 입력불가로 바꾸기
+	$("#commentcontent").keyup(function(){
+	let text = $(this).val();
+	if(text.length > 100){
+		alert("100자 넘었어요.");
+		$(this).val(text.substr(0, 100));
+	}
+	$("#comment-btn").text("글쓰기" + text.length + "/100");
 	});
+	
 });
 
 

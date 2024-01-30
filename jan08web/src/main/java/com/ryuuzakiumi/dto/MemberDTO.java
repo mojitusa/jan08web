@@ -2,7 +2,7 @@ package com.ryuuzakiumi.dto;
 
 public class MemberDTO {
 	
-	int mno, mgarede, count;
+	int mno, mgrade, count;
 	String mid, mpw, mname, mdate;
 	
 	
@@ -19,11 +19,11 @@ public class MemberDTO {
 	public void setMno(int mno) {
 		this.mno = mno;
 	}
-	public int getMgarede() {
-		return mgarede;
+	public int getMgrade() {
+		return mgrade;
 	}
-	public void setMgarede(int mgarede) {
-		this.mgarede = mgarede;
+	public void setMgrade(int mgarede) {
+		this.mgrade = mgarede;
 	}
 	public String getMid() {
 		return mid;
