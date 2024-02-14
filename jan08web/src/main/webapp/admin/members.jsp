@@ -6,7 +6,7 @@
 <head>
 <meta charset="UTF-8">
 <title>관리자 페이지</title>
-<link href="../css/admin.css?ver=0.15" rel="stylesheet"/>
+<link href="../css/admin.css?ver=0.19" rel="stylesheet"/>
 <link href="../css/member.css" rel="stylesheet"/>
 <script type="text/javascript" src="../js/menu.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

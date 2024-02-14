@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ryuuzakiumi.dto.BoardDTO;
 import com.ryuuzakiumi.dto.MemberDTO;
@@ -260,6 +262,98 @@ public class AdminDAO extends AbstractDAO {
 		
 		return result;
 	}
+
+
+	public List<Map<String, Object>> ipList() {
+		Connection con = db.getConnection();
+		PreparedStatement pstmt = null;
+		String sql = "SELECT ino, iip, idate, iurl, idata FROM iplog ORDER BY ino DESC";
+		ResultSet rs = null;
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Map<String, Object> ip = new HashMap<String, Object>();
+				ip.put("ino", rs.getInt("ino"));
+				ip.put("iip", rs.getString("iip"));
+				ip.put("idate", rs.getString("idate"));
+				ip.put("iurl", rs.getString("iurl"));
+				ip.put("idata", rs.getString("idata"));
+				list.add(ip);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	public List<Map<String, Object>> ipList(String para) {
+		Connection con = db.getConnection();
+		PreparedStatement pstmt = null;
+		String sql = "SELECT ino, iip, idate, iurl, idata FROM iplog WHERE iip=? ORDER BY ino DESC";
+		ResultSet rs = null;
+		List<Map<String, Object>> list = new ArrayList<Map<String,Object>>();
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, para);
+			rs = pstmt.executeQuery();
+			
+			while (rs.next()) {
+				Map<String, Object> ip = new HashMap<String, Object>();
+				ip.put("ino", rs.getInt("ino"));
+				ip.put("iip", rs.getString("iip"));
+				ip.put("idate", rs.getString("idate"));
+				ip.put("iurl", rs.getString("iurl"));
+				ip.put("idata", rs.getString("idata"));
+				list.add(ip);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return list;
+	}
+	
+
+
+	public List<Map<String, Object>> mostOften() {
+		List<Map<String, Object>> list = new ArrayList<>();
+		Connection con = db.getConnection();
+		PreparedStatement pstmt = null;
+		String sql = "SELECT iip, COUNT(iip) AS ip_count FROM iplog GROUP BY iip ORDER BY ip_count DESC LIMIT 10";
+		ResultSet rs = null;
+		
+		try {
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			
+			while(rs.next()) {
+				Map<String, Object> map = new HashMap<String, Object>();
+				map.put("ip", rs.getString("iip"));			
+				map.put("count", rs.getInt("ip_count"));
+				list.add(map);
+				
+				}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		
+		
+		return list;
+	}
+
+
+
+
+	
 		
 
 }

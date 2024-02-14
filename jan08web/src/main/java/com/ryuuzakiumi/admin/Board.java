@@ -29,9 +29,14 @@ public class Board extends HttpServlet {
 
 		// 데이터
 		AdminDAO dao = new AdminDAO();
-
-		List<BoardDTO> list = dao.boardList(request.getParameter("search"));
-
+		List<BoardDTO> list = dao.boardList();
+		
+		if(request.getParameter("search") != null && !request.getParameter("search").equals("")) {
+			list = dao.boardList(request.getParameter("search"));
+		} else {
+			list = dao.boardList();
+		}
+		
 		request.setAttribute("list", list);
 
 		RequestDispatcher rd = request.getRequestDispatcher("/admin/board.jsp");
